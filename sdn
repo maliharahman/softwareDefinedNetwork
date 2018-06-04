@@ -1,0 +1,6 @@
+#!/bin/bash
+
+read ACTION
+curl -X GET --silent  http://localhost:8080/channel/1/$ACTION
+EXIT_STATUS=$?
+exit $EXIT_STATUS

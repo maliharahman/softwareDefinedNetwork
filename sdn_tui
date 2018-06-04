@@ -1,0 +1,85 @@
+#!/bin/bash
+
+printf "\nFree and Open Source Software Project\n"
+
+# Checking if the 'sdn' utility is properly installed.
+which sdn 1> /dev/null
+if [ $? -ne 0 ]; then
+	echo "The 'sdn' utility is missing, please fix it with make install!"
+	exit 1
+else
+	CMD=sdn
+fi
+
+# Parameters for sdn_net tool
+HOST=localhost
+PORT=1234
+
+# Temporary files
+FILE=/tmp/sdnqkd1-$$
+ERROR=/tmp/sdnqkd-err-$$
+
+# Function to clean up temp files upon exit (Ctrl+C)
+cleanup_exit() {
+	printf "Cleaning up temporary filed before shutdown..."
+    rm -f $FILE $ERROR
+    printf "\nProgram ready for shutdown.\n\n"
+    exit 0
+}
+
+# Function to catch interrupt signal Ctrl+C
+function finish() {
+	printf "\n\nInterrupt signal received! Initiating showdown sequence!"
+	cleanup_exit
+}
+trap finish SIGINT
+
+#show banner in terminal for TUI, GUI and NET editions 
+cat intro.txt
+
+# Infinite loop to ask for user input on repeat
+while true; do
+	#TEST to see if the Terminal version or the GUI version was called
+	if [ `basename $0` = "sdn_tui" ]; then
+		read -p "Switch to: " ACTION
+
+	elif [ `basename $0` = "sdn_gui" ]; then
+		which gdialog 1> /dev/null && DIALOG=gdialog || DIALOG=dialog 1> /dev/null
+		$DIALOG --inputbox "Switch to: " 30 60 2> $FILE 
+		ACTION=`cat $FILE`
+		
+	elif [ `basename $0` = "sdn_net" ]; then
+		read -p "Switch to: " ACTION
+		CMD="nc $HOST $PORT"
+			
+	fi	
+	
+	# TEST INPUT TO SEE IF IT WAS A VALID INTEGER COMMAND
+	case ${ACTION#[-+]} in
+		# IT WAS NOT A VALID NUMBER
+		*[!0-9]* | '') 
+			printf "Please enter a valid number as seen in the instructions!\n"
+			;;
+		# IT WAS A VALID NUMBER
+		* ) 
+			# EXIT COMMAND DETECTED, CLEAN UP FILES AND EXIT PROGRAM
+			if [ $ACTION -eq 0 ] ;then
+
+				printf "\nExit command received, finishing program execution!\n"
+				cleanup_exit
+
+			# COMMAND 1 WAS RECEIVED, SEND REST REQUEST AND GO BACK TO WAIT FOR NEW COMMAND
+			elif [ $ACTION -eq 1 -o $ACTION -eq 2 ]; then
+
+				echo $ACTION | $CMD
+				printf "Channel switched to: %s\n" $ACTION
+
+			# INVALID COMMAND INTEGER WAS RECEIVED, GO BACK TO REQUEST NEW INPUT FROM USER...
+			else
+
+				printf "Invalid channel number. Please try again!\n"
+
+			fi
+			;;
+	esac
+done

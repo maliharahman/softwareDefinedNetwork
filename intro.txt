@@ -1,0 +1,18 @@
+**********************************************************************
+Evaluation project on Developing of SDN-enabled management system    *
+for blockchain transaction channels with a quantum cryptography      *
+encoding.							     *
+								     *
+By - PERCCOM cohort 5						     *
+Maliha Rahman Mishi						     *
+		                                              	     *
+**********************************************************************
+
+
+
+Please select one of the options from following: 
+
+1 - for switching to un-encrypted channel mode\n"
+2 - for switching to encrypted channel mode\n"
+0 - for exit
+

@@ -1,0 +1,39 @@
+#!/bin/sh
+
+which gdialog 2> /dev/null && DIALOG=gdialog || DIALOG=dialog
+
+
+end () {
+	exit
+}
+
+while true
+do
+	cmd=($DIALOG --keep-tite --menu "Please select channel : " 20 40 20)
+
+	options=(1 "Unencrypted"
+		 2 "Encrypted")
+
+	choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+	for choice in $choices
+	do
+		case $choice in
+			[1-2])
+				mode="You are in Encrypted"
+				if [ $choice -eq 1 ]
+				then
+					mode="Encryption is disabled"
+				fi
+				echo $choice | restsdn 1> /tmp/hello
+				val=`cat /tmp/hello`
+				if [ $val -gt 199 -a $val -lt 300 ]
+				then
+					display="Changed to channel : $mode. Would you like to continue? \n"
+				else
+					display="Oops couldn't connect to server. Please try again later\n"
+				fi
+				    $DIALOG --yesno "$display" 15 35 || end		
+			;;
+		    esac
+		done
+	done

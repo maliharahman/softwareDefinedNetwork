@@ -1,0 +1,12 @@
+# default: on
+# description: The SDN QKD Switching server
+service sdn
+{
+	flags		= REUSE
+	socket_type	= stream        
+	wait		= no
+	user		= nobody
+	server		= /usr/local/bin/sdn
+	disable		= no
+}
+
