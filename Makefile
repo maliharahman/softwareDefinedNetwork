@@ -7,10 +7,10 @@ install: sdn_tui-bengali.mo
 	ln -sf /usr/local/bin/sdn_tui /usr/local/bin/sdn_gui
 	install sdn_ui-bengali.mo /usr/share/locale/hu/LC_MESSAGES/sdn_ui.mo
 
-restsdn_tui.pot: sdn_tui
+sdn_tui.pot: sdn_tui
 	xgettext -o sdn_tui.pot -L Shell sdn_tui
 
-restsdn_tui-bengali.mo: sdn_tui-bengali.po
+sdn_tui-bengali.mo: sdn_tui-bengali.po
 	msgfmt -o sdn_tui-bengali.mo sdn_tui-bengali.po
 
 clone:
