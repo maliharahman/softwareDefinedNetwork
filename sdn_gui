@@ -24,7 +24,7 @@ do
 				then
 					mode="Encryption is disabled"
 				fi
-				echo $choice | restsdn 1> /tmp/hello
+				echo $choice | restsdn 1> /tmp/temp
 				val=`cat /tmp/hello`
 				if [ $val -gt 199 -a $val -lt 300 ]
 				then

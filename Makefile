@@ -5,7 +5,7 @@ install: sdn_tui-bengali.mo
 	install sdn.xinetd /etc/xinetd.d/sdn
 	ln -sf /usr/local/bin/sdn_tui /usr/local/bin/sdn_net
 	ln -sf /usr/local/bin/sdn_tui /usr/local/bin/sdn_gui
-	install sdn_ui-bengali.mo /usr/share/locale/hu/LC_MESSAGES/sdn_ui.mo
+	install sdn_ui-bengali.mo /usr/share/locale/bengali/LC_MESSAGES/sdn_ui.mo
 
 sdn_tui.pot: sdn_tui
 	xgettext -o sdn_tui.pot -L Shell sdn_tui
